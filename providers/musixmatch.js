@@ -6,12 +6,12 @@ const client = axios.create({
 });
 
 class Musixmatch {
-	getTrack(title, artist) {
+	getTrack(q_track, q_artist) {
 		return client.get('/track.search', {
 			params: {
-				q_track: title,
-				q_artist: artist,
-				apikey: process.env.MUSIXMATCH
+				apikey: process.env.MUSIXMATCH,
+				q_track,
+				q_artist,
 			},
 		}).then(res => {
 			const track = res.data.message.body.track_list[0].track;
@@ -24,11 +24,11 @@ class Musixmatch {
 		});
 	}
 
-	getSnippet(id) {
+	getSnippet(track_id) {
 		return client.get('/track.snippet.get', {
 				params: {
-					track_id: id,
-					apikey: process.env.MUSIXMATCH
+					apikey: process.env.MUSIXMATCH,
+					track_id
 				},
 			})
 			.then(res => {

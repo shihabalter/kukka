@@ -4,7 +4,8 @@
   "description": "lyrics-card like image generator bot",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "clean": "rm -rf ./images"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,8 @@
   },
   "dependencies": {
     "axios": "^0.19.0",
-    "dotenv": "^8.0.0"
+    "dotenv": "^8.0.0",
+    "translate-json-object": "^2.3.3"
   },
   "devDependencies": {
     "eslint": "^6.1.0"
