@@ -1,5 +1,6 @@
 const axios = require('axios');
 const fs = require('fs');
+const path = require('path');
 
 const client = axios.create({
 	baseURL: 'https://api.unsplash.com',
@@ -33,8 +34,9 @@ class Unsplash {
 				}
 			};
 
-			if (!fs.existsSync('./images')) {
-				fs.mkdirSync('./images');
+			const imagesPath = path.join(__dirname, '..', 'images');
+			if (!fs.existsSync(imagesPath)) {
+				fs.mkdirSync(imagesPath);
 			}
 
 			return axios({
@@ -42,7 +44,7 @@ class Unsplash {
 				responseType: 'stream',
 				params: {
 					q: options.quality || 80,
-					fm: options.file || 'jpg',
+					fm: options.format || 'jpg',
 					crop: options.crop || 'edges',
 					fit: options.fit || 'crop',
 					ar: options.ar || '1:1',
@@ -52,7 +54,7 @@ class Unsplash {
 			}).then(res => {
 				return new Promise((resolve, reject) => {
 					res.data
-						.pipe(fs.createWriteStream(`./images/${data.id}.${options.file}`))
+						.pipe(fs.createWriteStream(path.join(imagesPath, `${data.id}.${options.format}`)))
 						.on('finish', () => resolve(data))
 						.on('error', err => reject(err));
 				});
